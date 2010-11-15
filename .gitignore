@@ -1,0 +1,28 @@
+# ignore compiled python files
+*.pyc
+
+# ignore .ropeproject dirs
+.ropeproject/
+
+
+# ignore emacs temp files
+*~
+*\#*
+
+*nohup.out
+.DS_Store
+rand
+project_map.tmproj
+
+# ignore local files w/ sensitive info
+env_local.sh
+ssl_passphrase_local.sh
+permalink/settings_local.py
+taskmaster/settings_local.py
+
+# experimental stuff that may come back 
+# or at some point or be deleted... (darrell 20090629)
+permalink/accounts/access.py
+perpetuallyaccess
+taskmaster/bin/tms_queue_manager.py
+taskmaster/core/generic_tasks.py
