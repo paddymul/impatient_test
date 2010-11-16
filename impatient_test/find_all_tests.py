@@ -106,19 +106,9 @@ def get_test_cases_from_Klass(testCaseKlass):
         test_cases.append(getattr(testCaseKlass, testFnName))
     return test_cases
 
-def get_test_case_name(self, testCase):
+def get_test_case_name(testCase):
     return testCase.__name__
 
-def get_test_case_names_from_Klass(self, testCaseKlass):
-    """Return a sorted sequence of method names found within testCaseKlass
-    """
-    testMethodPrefix = "test"
-    def isTestMethod(attrname, testCaseKlass=testCaseKlass, prefix=testMethodPrefix):
-        return attrname.startswith(prefix) and hasattr(getattr(testCaseKlass, attrname), '__call__')
-    testFnNames = filter(isTestMethod, dir(testCaseKlass))
-    if self.sortTestMethodsUsing:
-        testFnNames.sort(key=_CmpToKey(self.sortTestMethodsUsing))
-    return testFnNames
 
 
 
