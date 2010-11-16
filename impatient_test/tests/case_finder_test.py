@@ -23,6 +23,11 @@ class CaseFinderTest(unittest.TestCase):
         from impatient_test import tests as impatient_test_test_module
         self.assertEquals(ab,impatient_test_test_module)
 
+    def test_diff(self):
+        testModule =get_test_module(get_app("impatient_test"))
+        self.assertNotEquals(
+            get_testKlasses(testModule),
+            get_test_Klasses_from_module(testModule))
     '''
     def test_1(self):
         app =  get_app("impatient_test")

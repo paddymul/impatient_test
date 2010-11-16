@@ -14,9 +14,29 @@ from django.test.testcases import OutputChecker, DocTestRunner, TestCase
 # The module name for tests outside models.py
 TEST_MODULE = 'tests'
 
-doctestOutputChecker = OutputChecker()
 import pdb
 import types
+
+###### Functions that operate on apps
+
+def get_filtered_apps():
+    """ this does basically what django test extensions does """
+    test_labels=[]
+    if hasattr(settings, 'SKIP_TESTS'):
+        if not test_labels:
+            test_labels = list()
+            for app in get_apps():
+                test_labels.append(app.__name__.split('.')[-2])
+        for app in settings.SKIP_TESTS:
+            try:
+                test_labels = list(test_labels)
+                test_labels.remove(app)
+            except ValueError:
+                pass
+        return map(get_app, test_labels)
+    else:
+        return get_apps()
+
 
 def get_test_module(app_module):
     try:
@@ -45,6 +65,18 @@ def get_test_module(app_module):
             raise
     return test_module
 
+def get_test_modules_from_app(app):
+    app_name = app_module.__name__.split(".")[-2]
+    test_module = get_test_module(app_module)
+    if test_module:
+        tl = unittest.TestLoader()
+        app_module.__name__.split(".")[-1]
+        for test_Klass in get_test_Klasses_from_module(test_module):
+            test_Klasses.append(test_Klass)
+    return test_Klasses
+
+#functions that operate on testModules
+
 def get_test_Klasses_from_module(module):
     """Return a suite of all tests cases contained in the given module"""
     testcases = []
@@ -57,6 +89,47 @@ def get_test_Klasses_from_module(module):
     #return self.suiteClass(tests)
     return testcases
 
+def get_testKlasses(app_module):
+    app_name = app_module.__name__.split(".")[-2]
+    test_module = get_test_module(app_module)
+    test_Klasses = []
+    if test_module:
+        tl = unittest.TestLoader()
+        print test_module
+        app_module.__name__.split(".")[-1]
+        for test_Klass in get_test_Klasses_from_module(test_module):
+            test_Klasses.append(test_Klass)
+
+    return test_Klasses
+    
+###### functions that operate on testKlasses
+
+
+def get_test_cases_from_Klass(testCaseKlass):
+    testMethodPrefix = "test"
+    def isTestMethod(attrname, testCaseKlass=testCaseKlass, prefix=testMethodPrefix):
+        return attrname.startswith(prefix) and hasattr(getattr(testCaseKlass, attrname), '__call__')
+    testFnNames = filter(isTestMethod, dir(testCaseKlass))
+
+    test_cases = []
+    for testFnName in testFnNames:
+        test_cases.append(getattr(testCaseKlass, testFnName))
+    return test_cases
+
+def get_test_case_names_from_Klass(self, testCaseKlass):
+    """Return a sorted sequence of method names found within testCaseKlass
+    """
+    testMethodPrefix = "test"
+    def isTestMethod(attrname, testCaseKlass=testCaseKlass, prefix=testMethodPrefix):
+        return attrname.startswith(prefix) and hasattr(getattr(testCaseKlass, attrname), '__call__')
+    testFnNames = filter(isTestMethod, dir(testCaseKlass))
+    if self.sortTestMethodsUsing:
+        testFnNames.sort(key=_CmpToKey(self.sortTestMethodsUsing))
+    return testFnNames
+
+
+
+###### Monolithic old functions 
 def get_testcases(app_module):
     app_name = app_module.__name__.split(".")[-2]
     test_module = get_test_module(app_module)
@@ -74,58 +147,6 @@ def get_testcases(app_module):
                     [app_name , testKlass.__name__, test_case_name]))
     return test_names
 
-def get_testKlasses(app_module):
-    app_name = app_module.__name__.split(".")[-2]
-
-    test_module = get_test_module(app_module)
-
-    test_Klasses = []
-    if test_module:
-        tl = unittest.TestLoader()
-        print test_module
-        app_module.__name__.split(".")[-1]
-        for test_Klass in get_test_Klasses_from_module(test_module):
-            test_Klasses.append(test_Klass)
-
-    return test_Klasses
-
-def get_test_modules_from_app(app):
-    app_name = app_module.__name__.split(".")[-2]
-    test_module = get_test_module(app_module)
-    if test_module:
-        tl = unittest.TestLoader()
-        app_module.__name__.split(".")[-1]
-        for test_Klass in get_test_Klasses_from_module(test_module):
-            test_Klasses.append(test_Klass)
-
-    return test_Klasses
-    
-
-def getTestCaseNames(self, testCaseKlass):
-    """Return a sorted sequence of method names found within testCaseKlass
-    """
-    testMethodPrefix = "test"
-    def isTestMethod(attrname, testCaseKlass=testCaseKlass, prefix=testMethodPrefix):
-        return attrname.startswith(prefix) and hasattr(getattr(testCaseKlass, attrname), '__call__')
-    testFnNames = filter(isTestMethod, dir(testCaseKlass))
-    if self.sortTestMethodsUsing:
-        testFnNames.sort(key=_CmpToKey(self.sortTestMethodsUsing))
-    return testFnNames
-
-
-def get_test_cases_from_Klass(testCaseKlass):
-    testMethodPrefix = "test"
-    def isTestMethod(attrname, testCaseKlass=testCaseKlass, prefix=testMethodPrefix):
-        return attrname.startswith(prefix) and hasattr(getattr(testCaseKlass, attrname), '__call__')
-    testFnNames = filter(isTestMethod, dir(testCaseKlass))
-
-    test_cases = []
-    for testFnName in testFnNames:
-        test_cases.append(getattr(testCaseKlass, testFnName))
-    return test_cases
-
-
-
 def get_individual_test_names(test_labels):
     test_list = []
 
@@ -136,22 +157,7 @@ def get_individual_test_names(test_labels):
         test_list.extend(get_testcases(app))
     return test_list
 
-def get_filtered_apps():
-    test_labels=[]
-    if hasattr(settings, 'SKIP_TESTS'):
-        if not test_labels:
-            test_labels = list()
-            for app in get_apps():
-                test_labels.append(app.__name__.split('.')[-2])
-        for app in settings.SKIP_TESTS:
-            try:
-                test_labels = list(test_labels)
-                test_labels.remove(app)
-            except ValueError:
-                pass
-        return map(get_app, test_labels)
-    else:
-        return get_apps()
+
         
 if __name__== "__main__":
     ab= get_test_cases_from_Klass(get_testKlasses(get_filtered_apps()[0])[3])
