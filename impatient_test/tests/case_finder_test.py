@@ -4,6 +4,8 @@ import unittest
 
 from impatient_test.find_all_tests import *
 from impatient_test.tests import dummy_tests as dummy_test_module
+ET = dummy_test_module.ExampleTests
+
 class CaseFinderTest(unittest.TestCase):
 
     def test_get_test_Klasses_from_module(self):
@@ -12,7 +14,7 @@ class CaseFinderTest(unittest.TestCase):
             [dummy_test_module.ExampleTests])
 
     def test_get_test_cases_from_Klass(self):
-        ET = dummy_test_module.ExampleTests
+        
         #pdb.set_trace()
         self.assertEquals(
             set([getattr(ET, "test_1")]),
@@ -23,12 +25,20 @@ class CaseFinderTest(unittest.TestCase):
         from impatient_test import tests as impatient_test_test_module
         self.assertEquals(ab,impatient_test_test_module)
 
+    '''
+    def test_get_testcase_name(self):
+        test_case_fn = getattr(ET, "test_1")
+        self.assertEquals(get_test_case_name(test_case_fn),
+                          "test_1")
+        
+
     def test_diff(self):
         testModule =get_test_module(get_app("impatient_test"))
+    
         self.assertNotEquals(
             get_testKlasses(testModule),
             get_test_Klasses_from_module(testModule))
-    '''
+
     def test_1(self):
         app =  get_app("impatient_test")
 

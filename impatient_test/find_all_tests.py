@@ -75,7 +75,7 @@ def get_test_modules_from_app(app):
             test_Klasses.append(test_Klass)
     return test_Klasses
 
-#functions that operate on testModules
+###### functions that operate on testModules
 
 def get_test_Klasses_from_module(module):
     """Return a suite of all tests cases contained in the given module"""
@@ -88,33 +88,26 @@ def get_test_Klasses_from_module(module):
             #tests.append(self.loadTestsFromTestCase(obj))
     #return self.suiteClass(tests)
     return testcases
-
-def get_testKlasses(app_module):
-    app_name = app_module.__name__.split(".")[-2]
-    test_module = get_test_module(app_module)
-    test_Klasses = []
-    if test_module:
-        tl = unittest.TestLoader()
-        print test_module
-        app_module.__name__.split(".")[-1]
-        for test_Klass in get_test_Klasses_from_module(test_module):
-            test_Klasses.append(test_Klass)
-
-    return test_Klasses
     
 ###### functions that operate on testKlasses
 
-
 def get_test_cases_from_Klass(testCaseKlass):
     testMethodPrefix = "test"
-    def isTestMethod(attrname, testCaseKlass=testCaseKlass, prefix=testMethodPrefix):
-        return attrname.startswith(prefix) and hasattr(getattr(testCaseKlass, attrname), '__call__')
+    def isTestMethod(attrname,
+                     testCaseKlass=testCaseKlass,
+                     prefix=testMethodPrefix):
+        prefix_pred = attrname.startswith(prefix)
+        callable_pred = hasattr(getattr(testCaseKlass, attrname), '__call__')
+        return prefix_pred  and callable_pred
     testFnNames = filter(isTestMethod, dir(testCaseKlass))
 
     test_cases = []
     for testFnName in testFnNames:
         test_cases.append(getattr(testCaseKlass, testFnName))
     return test_cases
+
+def get_test_case_name(self, testCase):
+    return testCase.__name__
 
 def get_test_case_names_from_Klass(self, testCaseKlass):
     """Return a sorted sequence of method names found within testCaseKlass
