@@ -17,6 +17,24 @@ TEST_MODULE = 'tests'
 import pdb
 import types
 
+"""
+Definitions
+
+* app
+is an application as defined by django, will be found in settings.INSTALLED_APPS
+* test_module
+the module of an app that contains testKlasses
+for impatient_test the test module is impatient_test.tests, in file
+impatient_tests/tests/__init__.py
+* test_Klass
+a class that extends unittest.TestCase
+* test_case
+a member function of a test_Klass
+
+
+
+"""
+
 ###### Functions that operate on apps
 
 def get_filtered_apps():
@@ -65,12 +83,18 @@ def get_test_module(app_module):
             raise
     return test_module
 
-def get_test_modules_from_app(app):
-    app_name = app_module.__name__.split(".")[-2]
+def get_app_name_from_test_Klass(testKlass):
+    """for a test module such as impatient_test.tests.ExampleTests
+    return impatient_test
+    """
+    return testKlass.__name__.split(".")[-2]
+
+def get_test_modules_from_app(app_module):
+
     test_module = get_test_module(app_module)
+    test_Klasses = []
     if test_module:
         tl = unittest.TestLoader()
-        app_module.__name__.split(".")[-1]
         for test_Klass in get_test_Klasses_from_module(test_module):
             test_Klasses.append(test_Klass)
     return test_Klasses
@@ -110,18 +134,15 @@ def get_test_case_name(testCase):
     return testCase.__name__
 
 
-
-
 ###### Monolithic old functions 
 def get_testcases(app_module):
-    app_name = app_module.__name__.split(".")[-2]
+    app_name = get_app_name(app_module)
     test_module = get_test_module(app_module)
     test_names = []
     
     if test_module:
         tl = unittest.TestLoader()
         print test_module
-        app_module.__name__.split(".")[-1]
         for testKlass in get_test_Klasses_from_module(test_module):
             pdb.set_trace()
             test_case_names = tl.getTestCaseNames(testKlass)
