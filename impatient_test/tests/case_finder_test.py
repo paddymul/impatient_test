@@ -6,17 +6,17 @@ from impatient_test.find_all_tests import *
 from impatient_test.tests import dummy_tests as dummy_test_module
 class CaseFinderTest(unittest.TestCase):
 
-    def test_get_test_classes_from_module(self):
+    def test_get_test_Klasses_from_module(self):
         self.assertEquals(
-            get_test_classes_from_module(dummy_test_module),
+            get_test_Klasses_from_module(dummy_test_module),
             [dummy_test_module.ExampleTests])
 
-    def test_get_test_cases_from_class(self):
+    def test_get_test_cases_from_Klass(self):
         ET = dummy_test_module.ExampleTests
         #pdb.set_trace()
         self.assertEquals(
             set([getattr(ET, "test_1")]),
-            set(get_test_cases_from_class(dummy_test_module.ExampleTests)))
+            set(get_test_cases_from_Klass(dummy_test_module.ExampleTests)))
     def test_get_test_module(self):
         app = get_app("impatient_test")
         ab = get_test_module(app)

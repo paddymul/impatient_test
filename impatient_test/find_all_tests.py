@@ -45,7 +45,7 @@ def get_test_module(app_module):
             raise
     return test_module
 
-def get_test_classes_from_module(module):
+def get_test_Klasses_from_module(module):
     """Return a suite of all tests cases contained in the given module"""
     testcases = []
     for name in dir(module):
@@ -66,65 +66,62 @@ def get_testcases(app_module):
         tl = unittest.TestLoader()
         print test_module
         app_module.__name__.split(".")[-1]
-        for testclass in get_test_classes_from_module(test_module):
+        for testKlass in get_test_Klasses_from_module(test_module):
             pdb.set_trace()
-            test_case_names = tl.getTestCaseNames(testclass)
+            test_case_names = tl.getTestCaseNames(testKlass)
             for test_case_name in test_case_names:
                 test_names.append(".".join(
-                    [app_name , testclass.__name__, test_case_name]))
+                    [app_name , testKlass.__name__, test_case_name]))
     return test_names
 
-def get_testclasses(app_module):
+def get_testKlasses(app_module):
     app_name = app_module.__name__.split(".")[-2]
 
     test_module = get_test_module(app_module)
 
-    test_classes = []
+    test_Klasses = []
     if test_module:
         tl = unittest.TestLoader()
         print test_module
         app_module.__name__.split(".")[-1]
-        for test_class in get_test_classes_from_module(test_module):
-            test_classes.append(test_class)
+        for test_Klass in get_test_Klasses_from_module(test_module):
+            test_Klasses.append(test_Klass)
 
-    return test_classes
+    return test_Klasses
 
 def get_test_modules_from_app(app):
     app_name = app_module.__name__.split(".")[-2]
-
     test_module = get_test_module(app_module)
-
-
     if test_module:
         tl = unittest.TestLoader()
         app_module.__name__.split(".")[-1]
-        for test_class in get_test_classes_from_module(test_module):
-            test_classes.append(test_class)
+        for test_Klass in get_test_Klasses_from_module(test_module):
+            test_Klasses.append(test_Klass)
 
-    return test_classes
+    return test_Klasses
     
 
-def getTestCaseNames(self, testCaseClass):
-    """Return a sorted sequence of method names found within testCaseClass
+def getTestCaseNames(self, testCaseKlass):
+    """Return a sorted sequence of method names found within testCaseKlass
     """
     testMethodPrefix = "test"
-    def isTestMethod(attrname, testCaseClass=testCaseClass, prefix=testMethodPrefix):
-        return attrname.startswith(prefix) and hasattr(getattr(testCaseClass, attrname), '__call__')
-    testFnNames = filter(isTestMethod, dir(testCaseClass))
+    def isTestMethod(attrname, testCaseKlass=testCaseKlass, prefix=testMethodPrefix):
+        return attrname.startswith(prefix) and hasattr(getattr(testCaseKlass, attrname), '__call__')
+    testFnNames = filter(isTestMethod, dir(testCaseKlass))
     if self.sortTestMethodsUsing:
         testFnNames.sort(key=_CmpToKey(self.sortTestMethodsUsing))
     return testFnNames
 
 
-def get_test_cases_from_class(testCaseClass):
+def get_test_cases_from_Klass(testCaseKlass):
     testMethodPrefix = "test"
-    def isTestMethod(attrname, testCaseClass=testCaseClass, prefix=testMethodPrefix):
-        return attrname.startswith(prefix) and hasattr(getattr(testCaseClass, attrname), '__call__')
-    testFnNames = filter(isTestMethod, dir(testCaseClass))
+    def isTestMethod(attrname, testCaseKlass=testCaseKlass, prefix=testMethodPrefix):
+        return attrname.startswith(prefix) and hasattr(getattr(testCaseKlass, attrname), '__call__')
+    testFnNames = filter(isTestMethod, dir(testCaseKlass))
 
     test_cases = []
     for testFnName in testFnNames:
-        test_cases.append(getattr(testCaseClass, testFnName))
+        test_cases.append(getattr(testCaseKlass, testFnName))
     return test_cases
 
 
@@ -157,8 +154,8 @@ def get_filtered_apps():
         return get_apps()
         
 if __name__== "__main__":
-    ab= get_test_cases_from_class(get_testclasses(get_filtered_apps()[0])[3])
-    ab= get_test_cases_from_class(get_testclasses(get_app("impatient_test"))[0])
+    ab= get_test_cases_from_Klass(get_testKlasses(get_filtered_apps()[0])[3])
+    ab= get_test_cases_from_Klass(get_testKlasses(get_app("impatient_test"))[0])
     print ab
     lyt1 = ab[0]
     pdb.set_trace()
