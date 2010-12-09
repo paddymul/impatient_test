@@ -21,7 +21,21 @@ def construct_command(test):
 def run_test_individually(test):
     os.system("python /home/paddy/permalink/permalink/manage.py test %s --verbosity=0" % test)
 
+
+class TestResult(object):
+
+    def __init__( self, test_name, return_code,
+                  time, stdin, stdout):
+        test_name, return_code = self.test_name, self.return_code
+        self.time, self.stdin, self.stdout = time, stdin, stdout
+
+        
+        
+
 def collect_test(test_name):
+    """ so named because it is supposed to collect the data from this
+    individual test """
+    
     print "starting", test_name
     start_time = datetime.datetime.now()
     proc = subprocess.Popen(
@@ -33,19 +47,21 @@ def collect_test(test_name):
         stderr=tempfile.TemporaryFile("w"))
 
     """
-
         stdout=subprocess.PIPE)
     """
     stds = proc.communicate()
     end_time = datetime.datetime.now()
     
     print "  finished  ", test_name, proc.returncode
-    return (test_name, proc.returncode, end_time - start_time, stds[0], stds[1])
+    return TestResult(
+        test_name, proc.returncode,
+        end_time - start_time, stds[0], stds[1])
+
 
 def summarize_results(results):
     fails = []
     for result in results:
-        if result[1] != 0:
+        if result.return_code != 0:
             fails.append(result)
     print "%d tests run %d failed" % (len(results), len(fails))
     for fail in fails:
@@ -56,7 +72,7 @@ def summarize_results(results):
 
 def run_tests_parallel(tests):
     count = multiprocessing.cpu_count()
-    pool=multiprocessing.Pool(processes=count+2)
+    pool = multiprocessing.Pool(processes=count+2)
     results = pool.map(collect_test, tests)
     summarize_results(results)
 
