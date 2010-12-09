@@ -116,6 +116,7 @@ def get_test_Klasses_from_module(module):
 ###### functions that operate on testKlasses
 
 def get_test_cases_from_Klass(testCaseKlass):
+    """ returns the actual functions """
     testMethodPrefix = "test"
     def isTestMethod(attrname,
                      testCaseKlass=testCaseKlass,
@@ -131,6 +132,7 @@ def get_test_cases_from_Klass(testCaseKlass):
     return test_cases
 
 def get_test_case_name(testCase):
+    """ given a testCase, returns the name of that testCase """
     return testCase.__name__
 
 
@@ -164,8 +166,17 @@ def get_individual_test_names(test_labels):
 
         
 if __name__== "__main__":
-    ab= get_test_cases_from_Klass(get_testKlasses(get_filtered_apps()[0])[3])
-    ab= get_test_cases_from_Klass(get_testKlasses(get_app("impatient_test"))[0])
+    pdb.set_trace()
+    ab = get_filtered_apps()
+    ac = ab[0]
+
+    ka = get_test_Klasses_from_module(ac)
+    kb = ka[0]
+
+    tca = get_test_cases_from_Klass(kb)
+    
+    #ab= get_test_cases_from_Klass(get_test_Klasses_from_module(get_filtered_apps()[0])[3])
+    #ab= get_test_cases_from_Klass(get_testKlasses(get_app("impatient_test"))[0])
     print ab
     lyt1 = ab[0]
     pdb.set_trace()
