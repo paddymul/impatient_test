@@ -1,0 +1,30 @@
+
+
+* deficienies
+
+** testsCases in the abstract
+
+current implementation is too tied to string based representation of
+tests
+
+we need access to the test functions themselves, so that annotations
+work properly
+
+** no way to run some tests with mysql, some without
+
+need mysql test_database_name enumerator, this should be done via
+environment variables or sys.argv parsing 
+
+** we don't capture test output
+simple to fix, should do
+
+** faster testing still
+*** we should run all tests that don't require the database in one process
+basically any testcase that doesn't extend django.test.TestCase
+these require no database usage so they should run ultra-fast, 
+
+*** box packing for tests
+use rlimit to find tests that use less cpu time than they take to run,
+these are good candidates for parallelization
+
+this requires storing test insturmentation info between runs
