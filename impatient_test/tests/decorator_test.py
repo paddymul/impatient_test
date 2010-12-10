@@ -4,7 +4,8 @@ import unittest
 
 from impatient_test.find_all_tests import *
 from impatient_test.filters import filter_by_case_fn_attr
-class CaseFinderTest(unittest.TestCase):
+
+class FiltersTest(unittest.TestCase):
             
     
     def test_find_test_by_decorator(self):
