@@ -8,29 +8,27 @@ import tempfile
 import datetime
 import subprocess
 import multiprocessing
+from django.conf import settings
 
 def construct_command(test):
-    man = opj(settings.PPY_CODE_ROOT,
-              "permalink",
-              "manage.py")
-
+    man = opj(settings.CODE_ROOT, settings.PROJ_NAME, "manage.py")
     return "python %s test %s --verbosity=0 --noinput" % (man, test)
 
 
 
 def run_test_individually(test):
-    os.system("python /home/paddy/permalink/permalink/manage.py test %s --verbosity=0" % test)
+    os.system(construct_command(test))
 
 
 class TestResult(object):
 
     def __init__( self, test_name, return_code,
-                  time, stdin, stdout):
-        test_name, return_code = self.test_name, self.return_code
-        self.time, self.stdin, self.stdout = time, stdin, stdout
+                  time, stdout, stderr):
+        self.test_name, self.return_code = test_name, return_code
+        self.time, self.stdout, self.stderr = time, stdout, stderr
 
         
-        
+import pdb
 
 def collect_test(test_name):
     """ so named because it is supposed to collect the data from this
@@ -38,24 +36,29 @@ def collect_test(test_name):
     
     print "starting", test_name
     start_time = datetime.datetime.now()
+    stdout_temp = tempfile.TemporaryFile("rw")
+    stderr_temp = tempfile.TemporaryFile("rw")
     proc = subprocess.Popen(
         construct_command(test_name),
-
         shell=True,
         stdin=subprocess.PIPE,
-        stdout=tempfile.TemporaryFile("w"),
-        stderr=tempfile.TemporaryFile("w"))
-
-    """
-        stdout=subprocess.PIPE)
-    """
+        stdout=stdout_temp,
+        stderr=stderr_temp)
     stds = proc.communicate()
     end_time = datetime.datetime.now()
+
+    
+
+    # need to seek to 0 so that we can read from this file
+    stdout_temp.seek(0)
+    stderr_temp.seek(0)
     
     print "  finished  ", test_name, proc.returncode
     return TestResult(
         test_name, proc.returncode,
-        end_time - start_time, stds[0], stds[1])
+        end_time - start_time,
+        stdout_temp.read(),
+        stderr_temp.read())
 
 
 def summarize_results(results):

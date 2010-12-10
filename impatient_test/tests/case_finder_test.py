@@ -59,8 +59,8 @@ class CaseFinderTest(unittest.TestCase):
             expected_invoke_string)
 
         fixture_app_tds =get_all_TestDescriptions("dummy_test_fixture")
-        print fixture_app_tds[0]
-        print expected_td
+        #print fixture_app_tds[0]
+        #print expected_td
         #pdb.set_trace()
         self.assertTrue(
             expected_td in fixture_app_tds)

@@ -26,11 +26,9 @@ class FiltersTest(unittest.TestCase):
         
         tds = get_all_TestDescriptions("decorator_fixture")
         filtered_tds = filter_by_case_fn_attr("sqlite3", tds)
-        print filtered_tds
         self.assertEquals(len(filtered_tds), 2)
 
         filtered_tds = filter_by_case_fn_attr("parallel", tds)
-        print filtered_tds
         self.assertEquals(len(filtered_tds), 1)
 
 
