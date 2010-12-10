@@ -28,6 +28,13 @@ DATABASE_HOST = ''             # Set to empty string for localhost. Not used wit
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
 DATABASE_ENGINE = 'sqlite3'
+#DATABASE_ENGINE = 'foo'
+
+from impatient_test import database_determine
+
+TEST_DATABASE_ENGINE = database_determine.test_database_engine()
+TEST_DATABASE_NAME = database_determine.test_database_name()
+
 
 
 import os
