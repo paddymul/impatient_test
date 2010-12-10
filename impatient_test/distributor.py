@@ -27,6 +27,19 @@ class TestResult(object):
         self.test_name, self.return_code = test_name, return_code
         self.time, self.stdout, self.stderr = time, stdout, stderr
 
+    def __str__(self):
+
+        
+        v = [self.test_name, self.return_code,
+             self.time, self.stdout, self.stderr]
+        v=map(str,v)
+        seperator = "\n" + "@"*80 + "\n"
+        #pdb.set_trace()
+        return seperator.join(v)
+
+    def __repr__(self):
+        return self.__str__()
+        
         
 import pdb
 
@@ -90,11 +103,12 @@ def run_all_tests_individually():
 
         
 if __name__== "__main__":
-    apps2 = get_individual_test_names(get_filtered_apps())
+    #apps2 = get_individual_test_names(get_filtered_apps())
     #apps2 = get_individual_test_names([get_app("proxy")])
     #apps2 = get_individual_test_names([get_app("access")])
     #ab = collect_test(apps2[0])
     #pdb.set_trace()
-    run_tests_parallel(apps2)
+    #run_tests_parallel(apps2)
     #get_individual_test_names(apps)
     #run_tests(False, verbosity=0)
+    pass

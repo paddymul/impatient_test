@@ -4,7 +4,7 @@ import unittest
 
 from impatient_test.find_all_tests import *
 from dummy_test_fixture.tests import dummy_tests as dummy_test_module
-ET = dummy_test_module.ExampleTests
+
 DA = get_app("dummy_test_fixture") #DummmyApp
 
 class CaseFinderTest(unittest.TestCase):
@@ -16,6 +16,7 @@ class CaseFinderTest(unittest.TestCase):
             [dummy_test_module.ExampleTests])
 
     def test_get_test_cases_from_Klass(self):
+        ET = dummy_test_module.ExampleTests
         expected_test_case = getattr(ET, "test_1")
         self.assertEquals(
             set([expected_test_case]),
@@ -28,6 +29,7 @@ class CaseFinderTest(unittest.TestCase):
 
 
     def test_get_testcase_name(self):
+        ET = dummy_test_module.ExampleTests
         test_case_fn = getattr(ET, "test_1")
         self.assertEquals(get_test_case_name(test_case_fn),
                           "test_1")
@@ -46,7 +48,7 @@ class CaseFinderTest(unittest.TestCase):
 
     def test_collect_TestDescriptions(self):
         """ use dummy test module """
-        
+        ET = dummy_test_module.ExampleTests
         expected_test_case = getattr(ET, "test_1")
         expected_Klass = ET
         expected_app = "dummy_test_fixture"
