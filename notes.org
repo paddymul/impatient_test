@@ -1,5 +1,10 @@
 
 
+
+* demo project
+make it super quick to get impatient test setup and running
+
+
 * deficienies
 
 ** testsCases in the abstract
@@ -28,3 +33,5 @@ use rlimit to find tests that use less cpu time than they take to run,
 these are good candidates for parallelization
 
 this requires storing test insturmentation info between runs
+
+
