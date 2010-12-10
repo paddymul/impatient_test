@@ -35,6 +35,25 @@ a member function of a test_Klass
 
 """
 
+class TestDescription(object):
+    """ A description of a single test case
+
+    """
+    def __init__(self, case_fn, Klass, app, invoke_string):
+        self.case_fn, self.Klass = case_fn, Klass
+        self.app, self.invoke_string =  app, invoke_string
+
+    def __eq__(self, other):
+        """ primarily used for testing impatient_test's functionality
+        """
+        
+        for k in ["case_fn", "Klass", "app", "invoke_string"]:
+            if not getattr(self, k) == getattr(other, k):
+                return False
+        return True
+        
+
+
 ###### Functions that operate on apps
 
 def get_filtered_apps():

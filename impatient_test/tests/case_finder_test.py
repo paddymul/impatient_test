@@ -35,26 +35,40 @@ class CaseFinderTest(unittest.TestCase):
                              get_test_Klasses_from_module(IA))
 
     
-    '''
-    def test_diff(self):
-        testModule =get_test_module(get_app("impatient_test"))
-    
-        self.assertNotEquals(
-            get_testKlasses(testModule),
-            get_test_Klasses_from_module(testModule))
 
-    def test_1(self):
-        app =  get_app("impatient_test")
+    def test_TestDescription_eq(self):
+        d1 = TestDescription("foo", "bar", "baz", "bof")
+        d2 = TestDescription("foo", "bar", "baz", "bof")
+        self.assertEquals(d1,d2)
+        d3 = TestDescription("fo2", "bar", "baz", "bof")
+        self.assertNotEquals(d2,d3)
 
-        classes =  get_testclasses(app)
-        ab = get_test_cases_from_class(classes)
-        print ab
-        #pdb.set_trace()
-        print ab
-    '''
-           
+    def test_collect_TestDescriptions(self):
+        """ use dummy test module """
+        
+        expected_test_case = getattr(ET, "test_1")
+        expected_Klass = ET
+        expected_app = "impatient_test"
+        expected_invoke_string = "impatient_test.ExampleTests.test1"
+
+        expected_td = TestDescription(
+            expected_test_case,
+            expected_Klass,
+            expected_app,
+            expected_invoke_string)
+
+        self.assertTrue(
+            expected_td in get_all_TestDescriptions("impatient_test"))
+        
             
-   
+    
+
+
+
+    def test_get_test_module(self):
+        expected_test_module = get_test_module(IA)
+        from impatient_test import tests as impatient_test_test_module
+        self.assertEquals(expected_test_module,impatient_test_test_module)
 
 
 
