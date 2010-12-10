@@ -16,6 +16,12 @@ class OutputTestKlass(unittest.TestCase):
         """writes the stderr_string to stderr """
         sys.stderr.write(stderr_string)
 
+    def test_mockfailure(self):
+        self.assertTrue(False)
+
+    def test_mocksuccess(self):
+        self.assertTrue(True)
+
 if __name__ == '__main__':
     unittest.main()
 

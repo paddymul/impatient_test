@@ -15,6 +15,14 @@ class CollectionTest(unittest.TestCase):
         tr = collect_test("output_fixture.OutputTestKlass.test_stderr")
         self.assertTrue(stderr_string in tr.stderr)
 
+    def test_recognize_fail(self):
+        tr = collect_test("output_fixture.OutputTestKlass.test_mockfailure")
+        self.assertNotEquals(tr.return_code, 0)
+
+    def test_recognize_success(self):
+        tr = collect_test("output_fixture.OutputTestKlass.test_mocksuccess")
+        self.assertEquals(tr.return_code, 0)
+        
 
         
 if __name__ == '__main__':
