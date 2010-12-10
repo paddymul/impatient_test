@@ -21,7 +21,12 @@ see which parts are taking longer than others and better diagnose
 errors.
 
 * how
-** to install
+** to run
+cd into proj_impatient_demo/
+python manage.py i_test
+
+
+** to install into your project
 look at proj_impatient_demo/settings.py to see hwo impatient_test is
 used.  This project also happens to be part of the impatient_test
 test_suite
