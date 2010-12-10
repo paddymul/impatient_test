@@ -48,8 +48,8 @@ class CaseFinderTest(unittest.TestCase):
         
         expected_test_case = getattr(ET, "test_1")
         expected_Klass = ET
-        expected_app = "impatient_test"
-        expected_invoke_string = "impatient_test.ExampleTests.test1"
+        expected_app = "fixtures_impatient_test_app"
+        expected_invoke_string = "fixtures_impatient_test_app.ExampleTests.test_1"
 
         expected_td = TestDescription(
             expected_test_case,
@@ -57,8 +57,12 @@ class CaseFinderTest(unittest.TestCase):
             expected_app,
             expected_invoke_string)
 
+        fixture_app_tds =get_all_TestDescriptions("fixtures_impatient_test_app")
+        print fixture_app_tds[0]
+        print expected_td
+        #pdb.set_trace()
         self.assertTrue(
-            expected_td in get_all_TestDescriptions("impatient_test"))
+            expected_td in fixture_app_tds)
         
             
     

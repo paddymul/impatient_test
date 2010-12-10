@@ -35,22 +35,6 @@ a member function of a test_Klass
 
 """
 
-class TestDescription(object):
-    """ A description of a single test case
-
-    """
-    def __init__(self, case_fn, Klass, app, invoke_string):
-        self.case_fn, self.Klass = case_fn, Klass
-        self.app, self.invoke_string =  app, invoke_string
-
-    def __eq__(self, other):
-        """ primarily used for testing impatient_test's functionality
-        """
-        
-        for k in ["case_fn", "Klass", "app", "invoke_string"]:
-            if not getattr(self, k) == getattr(other, k):
-                return False
-        return True
         
 
 
@@ -154,6 +138,45 @@ def get_test_case_name(testCase):
     """ given a testCase, returns the name of that testCase """
     return testCase.__name__
 
+class TestDescription(object):
+    """ A description of a single test case
+
+    """
+    def __init__(self, case_fn, Klass, app, invoke_string):
+        self.case_fn, self.Klass = case_fn, Klass
+        self.app, self.invoke_string =  app, invoke_string
+
+    def __eq__(self, other):
+        """ primarily used for testing impatient_test's functionality
+        """
+        
+        for k in ["case_fn", "Klass", "app", "invoke_string"]:
+            if not getattr(self, k) == getattr(other, k):
+                return False
+        return True
+
+    def __str__(self):
+        return "TestDescription(%r, %r, %r, %r)" % (self.case_fn, self.Klass, self.app, self.invoke_string)
+
+    def __repr__(self):
+        return self.__str__()
+def get_all_TestDescriptions(app_name=None):
+    app = get_app(app_name)
+    test_module = get_test_module(app)
+    tds = []  # TestDescriptions
+    for testKlass in get_test_Klasses_from_module(test_module):
+        for tc in get_test_cases_from_Klass(testKlass):
+            tds.append(
+                TestDescription(case_fn = tc,
+                                Klass = testKlass,
+                                app = app_name,
+                                invoke_string = create_invoke_string(
+                                                   app_name, testKlass, tc)))
+    return tds
+
+def create_invoke_string(app_name, testKlass, case_fn):
+    return ".".join(
+        [app_name , testKlass.__name__, case_fn.__name__])
 
 ###### Monolithic old functions 
 def get_testcases(app_module):
