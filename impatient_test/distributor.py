@@ -80,8 +80,13 @@ def summarize_results(results):
         if result.return_code != 0:
             fails.append(result)
     print "%d tests run %d failed" % (len(results), len(fails))
+    print "\n\n\n"
+    print "individual failing test outputs "
     for fail in fails:
+        print "+"*80
         print fail
+        print "+"*80
+    print "\n\n\n"
     print "%d tests run %d failed" % (len(results), len(fails))
             
 
