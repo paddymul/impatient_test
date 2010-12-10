@@ -79,5 +79,6 @@ INSTALLED_APPS = (
     #'django.contrib.sessions',
     #'django.contrib.sites',
     'impatient_test',
+    'decorator_fixture',
     'fixtures_impatient_test_app', #odd name allows for better tab completion
 )
