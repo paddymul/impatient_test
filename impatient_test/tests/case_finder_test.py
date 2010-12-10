@@ -3,7 +3,7 @@
 import unittest
 
 from impatient_test.find_all_tests import *
-from impatient_test.tests import dummy_tests as dummy_test_module
+from fixtures_impatient_test_app.tests import dummy_tests as dummy_test_module
 ET = dummy_test_module.ExampleTests
 IA = get_app("impatient_test")
 class CaseFinderTest(unittest.TestCase):
