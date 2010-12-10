@@ -78,5 +78,6 @@ INSTALLED_APPS = (
     #'django.contrib.contenttypes',
     #'django.contrib.sessions',
     #'django.contrib.sites',
-    'impatient_test'
+    'impatient_test',
+    'fixtures_impatient_test_app', #odd name allows for better tab completion
 )
