@@ -3,9 +3,10 @@
 import unittest
 
 from impatient_test.find_all_tests import *
-from fixtures_impatient_test_app.tests import dummy_tests as dummy_test_module
+from dummy_test_fixture.tests import dummy_tests as dummy_test_module
 ET = dummy_test_module.ExampleTests
-IA = get_app("impatient_test")
+DA = get_app("dummy_test_fixture") #DummmyApp
+
 class CaseFinderTest(unittest.TestCase):
 
     def test_get_test_Klasses_from_module(self):
@@ -21,9 +22,9 @@ class CaseFinderTest(unittest.TestCase):
             set(get_test_cases_from_Klass(dummy_test_module.ExampleTests)))
 
     def test_get_test_module(self):
-        expected_test_module = get_test_module(IA)
-        from impatient_test import tests as impatient_test_test_module
-        self.assertEquals(expected_test_module,impatient_test_test_module)
+        expected_test_module = get_test_module(DA)
+        from dummy_test_fixture import tests as dtf_test_module
+        self.assertEquals(expected_test_module, dtf_test_module)
 
 
     def test_get_testcase_name(self):
@@ -31,8 +32,8 @@ class CaseFinderTest(unittest.TestCase):
         self.assertEquals(get_test_case_name(test_case_fn),
                           "test_1")
     def test_diff(self):
-        self.assertNotEquals(get_test_modules_from_app(IA),
-                             get_test_Klasses_from_module(IA))
+        self.assertNotEquals(get_test_modules_from_app(DA),
+                             get_test_Klasses_from_module(DA))
 
     
 
@@ -67,13 +68,13 @@ class CaseFinderTest(unittest.TestCase):
             
     
 
-
+    """
 
     def test_get_test_module(self):
-        expected_test_module = get_test_module(IA)
+        expected_test_module = get_test_module(DA)
         from impatient_test import tests as impatient_test_test_module
         self.assertEquals(expected_test_module,impatient_test_test_module)
-
+    """
 
 
 if __name__ == '__main__':
