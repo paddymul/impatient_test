@@ -17,5 +17,9 @@ class DecoratorExampleTests(unittest.TestCase):
 
     def test_undecorated(self):
         self.assertTrue(1==1)
-        
+
+    @sqlite3
+    @parallel
+    def test_double_decorated(self):
+        self.assertTrue(1==1)
         
