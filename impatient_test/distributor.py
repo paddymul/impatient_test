@@ -42,12 +42,16 @@ class TestResult(object):
         
         
 import pdb
+import os
 
-def collect_test(test_name):
+def collect_wrap(args):
+    return collect_test(args[0], args[1])
+def collect_test(test_name, env={}):
     """ so named because it is supposed to collect the data from this
     individual test """
     
     print "starting", test_name
+    os.environ.update(env)
     start_time = datetime.datetime.now()
     stdout_temp = tempfile.TemporaryFile("rw")
     stderr_temp = tempfile.TemporaryFile("rw")
@@ -94,8 +98,9 @@ def summarize_results(results):
 def run_tests_parallel(tests):
     count = multiprocessing.cpu_count()
     pool = multiprocessing.Pool(processes=count+2)
-    results = pool.map(collect_test, tests)
-    summarize_results(results)
+    results = pool.map(collect_wrap, tests)
+    return results
+    #summarize_results(results)
 
     
 def run_all_tests_individually():
@@ -103,7 +108,7 @@ def run_all_tests_individually():
     for test in test_list:
         print test
         run_test_individually(test)
-        #pdb.set_trace()
+
 
 
         

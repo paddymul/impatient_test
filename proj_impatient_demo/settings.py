@@ -30,6 +30,8 @@ DATABASE_PORT = ''             # Set to empty string for default. Not used with 
 DATABASE_ENGINE = 'sqlite3'
 #DATABASE_ENGINE = 'foo'
 
+
+#from here down this is what is different
 from impatient_test import database_determine
 
 TEST_DATABASE_ENGINE = database_determine.test_database_engine()
@@ -48,6 +50,7 @@ PROJ_NAME = "proj_impatient_demo"
 INSTALLED_APPS = (
     'impatient_test',
     'decorator_fixture',
+    'env_check',
     'output_fixture',
     'dummy_test_fixture', 
 )
