@@ -9,6 +9,12 @@ def filter_by_case_fn_attr(prop, tds):
             ret_tds.append(td)
     return ret_tds
 
+def make_case_fn_attr_filter(prop):
+    def constructed_p(td):
+        return getattr(td.case_fn, prop, False)
+    return constructed_p
+
+
 def complement(f):
     def new_f(*args, **kwargs):
         return not f(*args, **kwargs)
@@ -16,6 +22,8 @@ def complement(f):
 
 def requires_database(td):
     return issubclass(td.Klass, djTestCase)
+
+requires_mysql = make_case_fn_attr_filter("mysql")
 
 def construct_envs(tds):
 
