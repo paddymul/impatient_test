@@ -3,7 +3,7 @@
 import unittest
 
 from impatient_test.find_all_tests import *
-from impatient_test.filters import filter_by_case_fn_attr
+from impatient_test.filters import filter_by_case_fn_attr, requires_database
 from decorator_fixture.tests import DecoratorExampleTests
 
 class FiltersTest(unittest.TestCase):
@@ -31,6 +31,12 @@ class FiltersTest(unittest.TestCase):
         filtered_tds = filter_by_case_fn_attr("parallel", tds)
         self.assertEquals(len(filtered_tds), 1)
 
+    def test_get_all_database(self):
+        #pdb.set_trace()
+        tds = get_all_TestDescriptions("env_check")
+
+        f_tds = filter(requires_database, tds)
+        self.assertEquals(len(f_tds), 1)
 
 if __name__ == '__main__':
     unittest.main()

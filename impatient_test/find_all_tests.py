@@ -1,15 +1,9 @@
-
-
-
-
-
 import unittest
 from django.conf import settings
 from django.db.models import get_app, get_apps
 from django.test import _doctest as doctest
 from django.test.utils import setup_test_environment, teardown_test_environment
 from django.test.testcases import OutputChecker, DocTestRunner, TestCase
-
 
 # The module name for tests outside models.py
 TEST_MODULE = 'tests'
@@ -142,9 +136,10 @@ class TestDescription(object):
     """ A description of a single test case
 
     """
-    def __init__(self, case_fn, Klass, app, invoke_string):
+    def __init__(self, case_fn, Klass, app, invoke_string, env={}):
         self.case_fn, self.Klass = case_fn, Klass
         self.app, self.invoke_string =  app, invoke_string
+        self.env = {}
 
     def __eq__(self, other):
         """ primarily used for testing impatient_test's functionality
@@ -160,6 +155,21 @@ class TestDescription(object):
 
     def __repr__(self):
         return self.__str__()
+
+    def __getstate__(self):
+        """ functions and classes aren't pickleable, so we exclude them """
+        state = self.__dict__.copy()
+        del state['Klass']
+        del state['case_fn']
+        return state
+
+
+    def __setstate__(self, state):
+
+        self.__dict__.update(state)
+        self.__dict__['Klass']=False
+        self.__dict__['case_fn']=False
+
 def get_all_TestDescriptions(app_name=None):
     app = get_app(app_name)
     test_module = get_test_module(app)

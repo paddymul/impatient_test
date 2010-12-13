@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     'impatient_test',
     'decorator_fixture',
     'env_check',
+    'db_switch',
     'output_fixture',
     'dummy_test_fixture', 
 )

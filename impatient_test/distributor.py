@@ -9,6 +9,8 @@ import datetime
 import subprocess
 import multiprocessing
 from django.conf import settings
+import pdb
+import os
 
 def construct_command(test):
     man = opj(settings.CODE_ROOT, settings.PROJ_NAME, "manage.py")
@@ -41,15 +43,14 @@ class TestResult(object):
         return self.__str__()
         
         
-import pdb
-import os
 
-def collect_wrap(args):
-    return collect_test(args[0], args[1])
-def collect_test(test_name, env={}):
+def collect_test(test_description):
     """ so named because it is supposed to collect the data from this
     individual test """
-    
+    #pdb.set_trace()
+    print test_description
+    test_name = test_description.invoke_string
+    env = test_description.env
     print "starting", test_name
     os.environ.update(env)
     start_time = datetime.datetime.now()
@@ -78,6 +79,16 @@ def collect_test(test_name, env={}):
         stderr_temp.read())
 
 
+def run_tests_parallel(tests):
+    count = multiprocessing.cpu_count()
+    #pool = multiprocessing.Pool(processes=count+2)
+    pool = multiprocessing.Pool(processes=1)
+    results = pool.map(collect_test, tests)
+    return results
+    #summarize_results(results)
+
+
+
 def summarize_results(results):
     fails = []
     for result in results:
@@ -93,15 +104,6 @@ def summarize_results(results):
     print "\n\n\n"
     print "%d tests run %d failed" % (len(results), len(fails))
             
-
-
-def run_tests_parallel(tests):
-    count = multiprocessing.cpu_count()
-    pool = multiprocessing.Pool(processes=count+2)
-    results = pool.map(collect_wrap, tests)
-    return results
-    #summarize_results(results)
-
     
 def run_all_tests_individually():
     test_list = get_individual_test_names(get_apps())
