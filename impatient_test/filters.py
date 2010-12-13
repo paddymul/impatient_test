@@ -56,3 +56,12 @@ def construct_envs(tds):
         
     
     
+def culled_apps():
+    culled = []
+    for app in settings.INSTALLED_APPS:
+        if app in settings.SKIP_TESTS:
+            continue
+        culled.append(app)
+    return culled
+
+print "calling culled_apps", culled_apps()

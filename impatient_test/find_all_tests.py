@@ -171,22 +171,27 @@ class TestDescription(object):
         self.__dict__['case_fn']=False
 
 def get_all_TestDescriptions(app_name=None):
-    app = get_app(app_name)
-    test_module = get_test_module(app)
-    tds = []  # TestDescriptions
-    for testKlass in get_test_Klasses_from_module(test_module):
-        for tc in get_test_cases_from_Klass(testKlass):
-            tds.append(
-                TestDescription(case_fn = tc,
-                                Klass = testKlass,
-                                app = app_name,
-                                invoke_string = create_invoke_string(
+    try:
+        app = get_app(app_name.split(".")[-1])
+        test_module = get_test_module(app)
+        tds = []  # TestDescriptions
+        for testKlass in get_test_Klasses_from_module(test_module):
+            for tc in get_test_cases_from_Klass(testKlass):
+                tds.append(
+                    TestDescription(case_fn = tc,
+                                    Klass = testKlass,
+                                    app = app_name,
+                                    invoke_string = create_invoke_string(
                                                    app_name, testKlass, tc)))
-    return tds
+        return tds
+    except:
+        return []
+
 
 def create_invoke_string(app_name, testKlass, case_fn):
+    normalized_app_name = app_name.split(".")[-1]
     return ".".join(
-        [app_name , testKlass.__name__, case_fn.__name__])
+        [normalized_app_name , testKlass.__name__, case_fn.__name__])
 
 ###### Monolithic old functions 
 def get_testcases(app_module):

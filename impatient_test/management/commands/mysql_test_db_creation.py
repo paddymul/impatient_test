@@ -16,14 +16,17 @@ class Command(BaseCommand):
 
         from impatient_test.find_all_tests import get_all_TestDescriptions
         from impatient_test.filters import requires_database, requires_mysql, complement
+        from impatient_test.filters import culled_apps
         
         from django.conf import settings
 
         all_tds = []
-        for app in settings.INSTALLED_APPS:
+        #import pdb
+        #pdb.set_trace()
+        for app in culled_apps():
             all_tds.extend(get_all_TestDescriptions(app))
-
-
+        #print culled_apps
+        #print all_tds
         db_reqs = filter(complement(requires_database), all_tds)
         mysql_reqs = filter(requires_mysql, db_reqs)
 
