@@ -89,18 +89,27 @@ def run_tests_parallel(tests):
 
 
 
-def summarize_results(results):
+def summarize_results(results, verbose=False):
     fails = []
     for result in results:
         if result.return_code != 0:
             fails.append(result)
+
+    if verbose:
+        for fail in result in results:
+            print "+"*80
+            print result
+            print "+"*80
+        
     print "%d tests run %d failed" % (len(results), len(fails))
     print "\n\n\n"
     print "individual failing test outputs "
+    
     for fail in fails:
         print "+"*80
         print fail
         print "+"*80
+
     print "\n\n\n"
     print "%d tests run %d failed" % (len(results), len(fails))
             

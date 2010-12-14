@@ -33,7 +33,7 @@ class Command(BaseCommand):
         #pdb.set_trace()
         mysql_count=0
 
-        for db in mysql_reqs:
+        for db in all_tds:
             db_name = "%s_%d" % (settings.TEST_DB_NAME_PREFIX, mysql_count)
             print MYSQL_CREATE_COMMMAND % (db_name, db_name)
             mysql_count += 1
