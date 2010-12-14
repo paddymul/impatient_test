@@ -3,19 +3,17 @@
 import unittest
 
 from impatient_test.find_all_tests import *
-from dummy_test_fixture.tests import dummy_tests as dummy_test_module
-
-DA = get_app("dummy_test_fixture") #DummmyApp
 
 class CaseFinderTest(unittest.TestCase):
 
     def test_get_test_Klasses_from_module(self):
-        
+        from dummy_test_fixture.tests import dummy_tests as dummy_test_module
         self.assertEquals(
             get_test_Klasses_from_module(dummy_test_module),
             [dummy_test_module.ExampleTests])
 
     def test_get_test_cases_from_Klass(self):
+        from dummy_test_fixture.tests import dummy_tests as dummy_test_module
         ET = dummy_test_module.ExampleTests
         expected_test_case = getattr(ET, "test_1")
         self.assertEquals(
@@ -23,17 +21,26 @@ class CaseFinderTest(unittest.TestCase):
             set(get_test_cases_from_Klass(dummy_test_module.ExampleTests)))
 
     def test_get_test_module(self):
+        from dummy_test_fixture.tests import dummy_tests as dummy_test_module
+        DA = get_app("dummy_test_fixture") #DummmyApp
+
         expected_test_module = get_test_module(DA)
         from dummy_test_fixture import tests as dtf_test_module
         self.assertEquals(expected_test_module, dtf_test_module)
 
 
     def test_get_testcase_name(self):
+        from dummy_test_fixture.tests import dummy_tests as dummy_test_module
+        DA = get_app("dummy_test_fixture") #DummmyApp
+        
         ET = dummy_test_module.ExampleTests
         test_case_fn = getattr(ET, "test_1")
         self.assertEquals(get_test_case_name(test_case_fn),
                           "test_1")
     def test_diff(self):
+        from dummy_test_fixture.tests import dummy_tests as dummy_test_module
+        DA = get_app("dummy_test_fixture") #DummmyApp
+
         self.assertNotEquals(get_test_modules_from_app(DA),
                              get_test_Klasses_from_module(DA))
 
@@ -48,6 +55,9 @@ class CaseFinderTest(unittest.TestCase):
 
     def test_collect_TestDescriptions(self):
         """ use dummy test module """
+        from dummy_test_fixture.tests import dummy_tests as dummy_test_module
+        DA = get_app("dummy_test_fixture") #DummmyApp
+
         ET = dummy_test_module.ExampleTests
         expected_test_case = getattr(ET, "test_1")
         expected_Klass = ET
