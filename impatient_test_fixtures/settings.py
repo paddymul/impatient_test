@@ -34,7 +34,7 @@ DATABASE_ENGINE = 'sqlite3'
 #from here down this is what is different
 from impatient_test import database_determine
 
-TEST_DB_NAME_PREFIX = "proj_impatient_demo_test"
+TEST_DB_NAME_PREFIX = "impatient_test_fixtures"
 
 TEST_DATABASE_ENGINE = database_determine.test_database_engine()
 TEST_DATABASE_NAME = database_determine.test_database_name()
@@ -47,7 +47,7 @@ opj = os.path.join
 # hardcoding paths through your application
 CODE_ROOT = opj(os.path.abspath(os.path.dirname(__file__)), '..')
 # required so that we can construct shell commands
-PROJ_NAME = "proj_impatient_demo"
+PROJ_NAME = "impatient_test_fixtures"
 
 INSTALLED_APPS = (
     'impatient_test',
