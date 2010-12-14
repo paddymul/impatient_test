@@ -35,3 +35,19 @@ these are good candidates for parallelization
 this requires storing test insturmentation info between runs
 
 
+
+** better way of reporting test results
+I need to be able to grab a datastructure report of which tests
+failed,
+this way I can run all of the non_database tests in their own process,
+and they will only suffer the python stratup penalty once
+
+
+** custom testrunner
+seems like all the cool kids are doing it,  we want to change the
+summary messages that the standard test runner displays. it is
+confusing seeing 30 "1 test failed" messages
+
+
+** sql catching/fixtures
+

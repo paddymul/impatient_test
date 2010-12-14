@@ -64,4 +64,4 @@ def culled_apps():
         culled.append(app)
     return culled
 
-print "calling culled_apps", culled_apps()
+#print "calling culled_apps", culled_apps()
