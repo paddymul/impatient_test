@@ -24,5 +24,6 @@ class Command(BaseCommand):
             all_tds.extend(get_all_TestDescriptions(app))
 
 
-        summarize_results(run_tests_parallel(all_tds[0:5]))
+        #summarize_results(run_tests_parallel(all_tds[0:5]))
+        summarize_results(run_tests_parallel(all_tds))
 
