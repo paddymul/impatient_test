@@ -57,3 +57,4 @@ INSTALLED_APPS = (
     'output_fixture',
     'dummy_test_fixture', 
 )
+SKIP_TESTS = ()
