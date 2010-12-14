@@ -81,7 +81,7 @@ def collect_test(test_description):
 
 def run_tests_parallel(tests):
     count = multiprocessing.cpu_count()
-    pool = multiprocessing.Pool(processes=count+2)
+    pool = multiprocessing.Pool(processes=count+10)
     #pool = multiprocessing.Pool(processes=1)
     results = pool.map(collect_test, tests)
     return results

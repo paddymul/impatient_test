@@ -53,6 +53,12 @@ CODE_ROOT = opj(os.path.abspath(os.path.dirname(__file__)), '..')
 # required so that we can construct shell commands
 PROJ_NAME = "proj_impatient_demo"
 
+#if most of your tests require mysql, it is
+#better to just label those specific tests which require sqlite3
+
+IMPATIENT_DEFAULT_DATABASE="mysql"
+
+
 INSTALLED_APPS = (
     'impatient_test',
     'db_backed_app'
