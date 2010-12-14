@@ -11,7 +11,7 @@ class Command(BaseCommand):
     option_list =BaseCommand.option_list +  (
         make_option(
             '--max_tests', action='store',
-            dest='max_tests', default=False,
+            dest='max_tests', #default=False,
             help='Maximum number of tests to run, (mostly for debugging)'),
         make_option(
             '--show_all_output', action='store_true',
@@ -27,20 +27,22 @@ class Command(BaseCommand):
         from impatient_test.distributor import run_tests_parallel, summarize_results
         from impatient_test.filters import culled_apps, construct_envs
         from django.conf import settings
-
+        import pdb
+        print options
+        #
 
         all_tds = []
         for app in culled_apps():
             all_tds.extend(get_all_TestDescriptions(app))
-        #import pdb
-        #print options
         #1/0
 
-        #pdb.set_trace()
+
 
         env_tds = construct_envs(all_tds)
         #summarize_results(run_tests_parallel(all_tds[0:5]))
-        max_tests = int(options.get("max_tests", len(env_tds)))
+        #pdb.set_trace()
+        
+        max_tests = int(options.get("max_tests", False) or len(env_tds))
         test_results = run_tests_parallel(env_tds[0:max_tests])
         summarize_results(
             test_results,

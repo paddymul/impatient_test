@@ -24,7 +24,7 @@ def requires_database(td):
     return issubclass(td.Klass, djTestCase)
 
 requires_mysql = make_case_fn_attr_filter("mysql")
-requires_sqlite = make_case_fn_attr_filter("sqlite")
+requires_sqlite = make_case_fn_attr_filter("sqlite3")
 
 import pdb
 

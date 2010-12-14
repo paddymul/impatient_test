@@ -6,9 +6,11 @@ Replace these with more appropriate tests for your application.
 """
 
 from django.test import TestCase
-from impatient_test.decorators import mysql
+from impatient_test.decorators import mysql, sqlite3
 
 class SimpleTest(TestCase):
+
+    @sqlite3
     def test_basic_addition(self):
         """
         Tests that 1 + 1 always equals 2.
