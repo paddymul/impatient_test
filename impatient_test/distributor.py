@@ -14,7 +14,7 @@ import os
 
 def construct_command(test):
     man = opj(settings.CODE_ROOT, settings.PROJ_NAME, "manage.py")
-    return "python %s test %s --verbosity=0 --noinput" % (man, test)
+    return "python %s test %s --noinput" % (man, test)
 
 
 
@@ -81,8 +81,8 @@ def collect_test(test_description):
 
 def run_tests_parallel(tests):
     count = multiprocessing.cpu_count()
-    #pool = multiprocessing.Pool(processes=count+2)
-    pool = multiprocessing.Pool(processes=1)
+    pool = multiprocessing.Pool(processes=count+2)
+    #pool = multiprocessing.Pool(processes=1)
     results = pool.map(collect_test, tests)
     return results
     #summarize_results(results)

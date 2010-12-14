@@ -27,9 +27,10 @@ class Command(BaseCommand):
             all_tds.extend(get_all_TestDescriptions(app))
         #print culled_apps
         #print all_tds
-        db_reqs = filter(complement(requires_database), all_tds)
+        db_reqs = filter(requires_database, all_tds)
         mysql_reqs = filter(requires_mysql, db_reqs)
-
+        #import pdb
+        #pdb.set_trace()
         mysql_count=0
 
         for db in mysql_reqs:

@@ -13,7 +13,7 @@ class Command(BaseCommand):
 
         from impatient_test.find_all_tests import get_all_TestDescriptions
         from impatient_test.distributor import run_tests_parallel, summarize_results
-        from impatient_test.filters import culled_apps
+        from impatient_test.filters import culled_apps, construct_envs
         from django.conf import settings
 
 
@@ -23,7 +23,7 @@ class Command(BaseCommand):
         for app in culled_apps():
             all_tds.extend(get_all_TestDescriptions(app))
 
-
+        env_tds = construct_envs(all_tds)
         #summarize_results(run_tests_parallel(all_tds[0:5]))
-        summarize_results(run_tests_parallel(all_tds))
+        summarize_results(run_tests_parallel(env_tds))
 

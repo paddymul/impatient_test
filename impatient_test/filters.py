@@ -24,16 +24,17 @@ def requires_database(td):
     return issubclass(td.Klass, djTestCase)
 
 requires_mysql = make_case_fn_attr_filter("mysql")
+requires_sqlite = make_case_fn_attr_filter("sqlite")
 
+import pdb
 def construct_envs(tds):
 
 
-    db_reqs = filter(complement(requires_database), tds)
-    
-    no_db = filter(requires_database, tds)
+    no_db = filter(complement(requires_database), tds)
+    db_reqs = filter(requires_database, tds)
     mysql_reqs = filter(requires_mysql, db_reqs)
-    sqlite_reqs = filter(requires_sqlite, db_reqs)
-
+    sqlite_reqs = filter(complement(requires_mysql), db_reqs)
+    #pdb.set_trace()
     mysql_dbs = len(mysql_reqs)
     print "%d separate mysql databases required "
 
