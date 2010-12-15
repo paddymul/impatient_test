@@ -11,9 +11,9 @@ from impatient_test.decorators import mysql, sqlite3
 class SimpleTest(TestCase):
 
     @sqlite3
-    def test_basic_addition(self):
+    def test_sqlite3_decorator(self):
         """
-        Tests that 1 + 1 always equals 2.
+        this demonstrates the sqlite3 decorator
         
         """
         from django.conf import settings
@@ -21,15 +21,24 @@ class SimpleTest(TestCase):
         self.assertEquals(
             settings.TEST_DATABASE_ENGINE,
             "sqlite3")
+
+    def test_undecorated_db(self):
+        """
+        note that because settings.IMPATIENT_DEFAULT_DATABASE="mysql"
+        this test will get a mysql database 
+        
+        """
+        from django.conf import settings
+        self.assertEquals(
+            settings.TEST_DATABASE_ENGINE,
+            "mysql")
         
 
     @mysql
-    def test_basic_addition_with_mysql(self):
+    def test_mysql_decorator(self):
         """
-        Tests that 1 + 1 always equals 2.
         
         """
-        self.failUnlessEqual(1 + 1, 2)
         from django.conf import settings
         self.assertEquals(
             settings.TEST_DATABASE_ENGINE,
