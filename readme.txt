@@ -22,17 +22,26 @@ errors.
 
 * how
 ** run the demo
+
 cd into proj_impatient_demo/
+*** create extra db schemas
+python manage.py   mysql_test_db_creation
+
+this will output commands for mysql to create the test schemas needed 
+
+
+*** run the tests in parallel
 python manage.py i_test
 
 you will see some output about each test running, then at the end you
 will see the information for the one failing test
-(There is a failing test in proj_impatient_demo to test that
-impatient_test can recognize failed tests )
 
 you can also run
 python manage.py test
-to run the traditional tests
+to run the tests traditionally (note this currently tests the
+impatient_test module, but those tests fail because impatien ttes
+expects certain other paps to be installed, they are installed in
+impatient_test_fixtures) 
 
 
 
